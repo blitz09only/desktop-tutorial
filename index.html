@@ -42,17 +42,12 @@ if(u&&u.indexOf('http')===0){
   b.removeAttribute('onclick');
   b.style.cursor='pointer';
   b.onclick=function(){
-    // 尝试弹出到系统浏览器
+    // 弹出到系统浏览器（支付宝 WebView 中 _blank 会走 Safari/Chrome）
     var w=window.open(u,'_blank');
     if(!w){
-      // 如果被拦截，降级为当前页跳转
-      location.href=u;
+      // 被拦截则显示手动引导
+      document.getElementById('fallback').style.display='block';
     }
-    // 同时触发提示
-    setTimeout(function(){
-      var fb=document.getElementById('fallback');
-      if(fb)fb.style.display='block';
-    },800);
     return false;
   };
   b.textContent='查看详情';
