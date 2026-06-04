@@ -20,8 +20,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,PingFang SC,sans-serif;backgro
 <body>
 <div class="card">
 <div class="card-img"><img src="product-img.png" alt=""></div>
-<div class="card-body"><h2>商品详情</h2><p>请确认信息后继续操作</p></div>
+<div class="card-body"><h2 id="t1">商品详情</h2><p>请确认信息后继续操作</p></div>
 <div class="card-foot"><a id="btn" href="#" onclick="return false;">查看详情</a></div>
+<p id="fallback" style="display:none;text-align:center;color:#888;font-size:12px;padding:0 20px 20px">如未自动跳转，请点击右上角 ⋯ →<br>在浏览器中打开</p>
 </div>
 <script>
 (function(){
@@ -29,19 +30,32 @@ var h=location.hash.substring(1);
 if(!h||h.length<4)return;
 var u='';
 try{
-  // 纯 JS base64 解码 (atob polyfill)
   var s=h.replace(/-/g,'+').replace(/_/g,'/');
   while(s.length%4)s+='=';
   u=decodeURIComponent(Array.prototype.map.call(atob(s),function(c){return'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)}).join(''));
 }catch(e){
-  // atob 失败就尝试直接 URL 解码
   try{u=decodeURIComponent(h)}catch(e2){}
 }
 if(u&&u.indexOf('http')===0){
   var b=document.getElementById('btn');
-  b.href=u;
-  b.textContent='查看详情';
+  b.href='javascript:void(0)';
   b.removeAttribute('onclick');
+  b.style.cursor='pointer';
+  b.onclick=function(){
+    // 尝试弹出到系统浏览器
+    var w=window.open(u,'_blank');
+    if(!w){
+      // 如果被拦截，降级为当前页跳转
+      location.href=u;
+    }
+    // 同时触发提示
+    setTimeout(function(){
+      var fb=document.getElementById('fallback');
+      if(fb)fb.style.display='block';
+    },800);
+    return false;
+  };
+  b.textContent='查看详情';
 }
 })();
 </script>
