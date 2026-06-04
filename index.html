@@ -8,7 +8,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,PingFang SC,sans-serif;background:#f5f5f5;min-height:100vh;display:flex;justify-content:center;align-items:center}
 .card{width:90%;max-width:380px;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden}
-.card-img{width:100%;height:180px;background:linear-gradient(135deg,#e8f0fe,#d4e4fc);display:flex;align-items:center;justify-content:center;color:#1677FF;font-size:48px}
+.card-img{width:100%;height:180px;display:flex;align-items:center;justify-content:center;background:#f0f0f0;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover}
 .card-body{padding:20px}
 .card-body h2{font-size:17px;color:#222;margin-bottom:8px}
 .card-body p{font-size:13px;color:#888;line-height:1.6;margin-bottom:10px}
@@ -18,7 +19,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,PingFang SC,sans-serif;backgro
 </head>
 <body>
 <div class="card">
-<div class="card-img">&#128722;</div>
+<div class="card-img"><img src="IMAGE_URL" alt=""></div>
 <div class="card-body"><h2>商品详情</h2><p>请确认信息后继续操作</p></div>
 <div class="card-foot"><a id="btn" href="#" onclick="return false;">查看详情</a></div>
 </div>
